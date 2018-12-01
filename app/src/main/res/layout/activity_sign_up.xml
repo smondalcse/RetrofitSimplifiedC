@@ -23,10 +23,11 @@
             android:layout_height="wrap_content"
             android:text="Sing Up Form"
             android:textAlignment="center"
-            android:textSize="30sp"
+            android:textSize="22sp"
             android:textStyle="bold" />
 
         <EditText
+            android:layout_marginTop="20dp"
             android:paddingLeft="20dp"
             android:paddingBottom="5dp"
             android:paddingTop="5dp"
