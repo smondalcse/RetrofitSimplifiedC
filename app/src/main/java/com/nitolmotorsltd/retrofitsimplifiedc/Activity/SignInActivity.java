@@ -1,5 +1,6 @@
 package com.nitolmotorsltd.retrofitsimplifiedc.Activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nitolmotorsltd.retrofitsimplifiedc.Api.RetrofitClient;
+import com.nitolmotorsltd.retrofitsimplifiedc.HomeActivity;
 import com.nitolmotorsltd.retrofitsimplifiedc.R;
 
 import java.io.IOException;
@@ -76,6 +78,9 @@ public class SignInActivity extends AppCompatActivity {
                 try {
                     Toast.makeText(SignInActivity.this, "Login successfull.", Toast.LENGTH_SHORT).show();
                     Log.d(TAG, "onResponse: " + response.body().string());
+
+                    Intent intent = new Intent(SignInActivity.this, HomeActivity.class);
+                    startActivity(intent);
 
                 } catch (IOException e) {
                     e.printStackTrace();

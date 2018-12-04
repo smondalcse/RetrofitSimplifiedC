@@ -1,6 +1,5 @@
 package com.nitolmotorsltd.retrofitsimplifiedc.Activity;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,7 +12,8 @@ import android.widget.Toast;
 import com.nitolmotorsltd.retrofitsimplifiedc.Api.RetrofitClient;
 import com.nitolmotorsltd.retrofitsimplifiedc.R;
 
-import org.w3c.dom.Text;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -91,16 +91,24 @@ public class SignUpActivity extends AppCompatActivity {
         // Pass the validation
 
         Call<ResponseBody> responseBodyCall = RetrofitClient.getInstance().getApi().createUser(name, email, password, address);
+
         responseBodyCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                try {
-                    Toast.makeText(SignUpActivity.this, "User Create successfull.", Toast.LENGTH_SHORT).show();
-                    Log.d(TAG, "onResponse: " + response.body().string());
 
-                } catch (IOException e) {
+                String s = response.body().toString();
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    boolean success = jsonObject.getBoolean("success");
+                    String msg = jsonObject.getString("msg");
+                    if(success){
+                        Toast.makeText(SignUpActivity.this, msg, Toast.LENGTH_SHORT).show();
+                        String insert_id = jsonObject.getString("insert_id");
+                    } else {
+                        Toast.makeText(SignUpActivity.this, msg, Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
                     e.printStackTrace();
-                    Toast.makeText(getApplicationContext(), "User creation failed.", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -109,6 +117,7 @@ public class SignUpActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "User creation failed.", Toast.LENGTH_SHORT).show();
             }
         });
+
 
     }
 }
